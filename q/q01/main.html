@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Carl Dalebout</title>
+    <style>
+      img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      </style>
+  </head>  
+  <body>
+    <script>
+      function submit ()
+      {
+        const textbox = document.getElementById('username).value;
+        
+        localStorage.setItem("Data", textbox);
+
+        return;
+      }
+    </script>
+    <h2>Carl Dalebout</h2>
+    <picture>
+      <img src="Headshot.jpg"
+           alt="headshot"
+           style="width: auto; height: auto;" />
+    </picture>
+    <p>Hi, I'm .............</p>
+    <p>What's your name? : </p> 
+    <textarea id="username" name="username">name</textarea>
+    <a href="main2.html">
+      <button onclick="" type="button">go</button>
+    </a>
+  </body>
+</html>
+
+function handleSubmit (){
+  const textbox = document.getElementById('username).value;
+
+  localStorage.setItem("Data", textbox);
+
+  return;
+}
