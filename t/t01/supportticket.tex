@@ -1,0 +1,156 @@
+The tech support at the rebel camp has recently been automated with an RDBMS.
+This includes a support ticket subsystem.
+Staff with technical problems can go to the support website and
+create a support ticket.
+When John Doe first creates a support ticket, his information (i.e., email address) is
+stored in the \texttt{SupportTickets} table.
+A support ticket id is automatically generated.
+He also has to enter a subject and a short message.
+His message is stored in the \texttt{Notes} table.
+For a support ticket, there are several extra messages entered into the system.
+For instance if the support personnel replies to John Doe, that message is stored in
+the \texttt{Notes} table.
+If the support personal cannot resolve the issue immediately, he will enter notes
+into the system for future reference.
+Each note has a state tag.
+A note from John Doe has state 0.
+A note replied back to John Doe has state 9.
+
+In the example below, support ticket with id 3 has a total of 9 notes.
+Princess Leia is bossy and wants to check on the productivity of the
+support personnel.
+Therefore she needs to know the total wait time for users of the support system.
+For instance in the case of support ticket 3,
+the first message arrived at time stamp 5 (state 0).
+A reply was sent out at time 10 (state 9).
+The waiting time is $10 - 5 = 5$.
+But the issue was not resolved -- a follow up question was posted at time 24.
+A reply was then sent at time 30.
+At this point, the total wait time is $(10 - 5) + (30 - 24) = 11$.
+However, the issue is still not resolved so that a second follow up question
+was entered at time 45.
+A few personal notes were entered while the support personnel research on the problem
+(state 1, 4, 7).
+Finally a reply was sent at time 68.
+At this point, the total wait time for the user is $(10-5) + (30 - 24) + (68 - 45) = 34$.
+Note that support ticket with id 3 is handled by employee with employee id 97.
+(More generally, a support question can be handled by multiple employees.)
+
+Consider the following schema:
+\begin{Verbatim}[commandchars=\\\{\}]
+    SupportTickets(\underline{sid:integer},
+                   email:string,
+                   subject:string)
+                   
+    Employees(\underline{eid:integer},
+              name:string)
+              
+    Notes(\underline{sid:integer},
+          \underline{eid:integer},
+          state:integer,
+          note:string,
+          time:integer)
+\end{Verbatim}
+
+Example data:
+\begin{python}
+from latextool_basic import *
+p = Plot()
+i = 2
+def rect(s):
+    global i
+    i = i + 1
+    i = i % 3
+    if i == 0 : return Rect(x0=0, y0=0, x1=1, y1=0.6, label=s)
+    elif i == 1: return Rect(x0=0, y0=0, x1=4, y1=0.6, label=s)
+    elif i == 2: return Rect(x0=0, y0=0, x1=8, y1=0.6, label=s)
+    
+m00 = [[r'\texttt{id}', r'\texttt{email}', r'\texttt{subject}'],
+]
+
+m10 = [[r'\texttt{%s}' % x for x in ['3','luke@rebels.com', 'light saber on/off button']],
+       [r'\texttt{%s}' % x for x in ['6','leia@rebels.com', 'blaster misfiring']],
+       [r'\texttt{%s}' % x for x in ['8','hans@rebels.com', 'falcon can\'t jump to hyperspace']],
+]
+
+M = [[m00],
+     [m10]]
+
+N = table3(p, M, rect=rect)
+x,y = N[0][0].topleft(); x = x + 1.4; y = y + 0.4
+p += Rect(x0=x, y0=y, x1=x, y1=y, linewidth=0, label=r'\texttt{SupportTickets}')
+print(p)
+\end{python}
+
+\begin{python}
+from latextool_basic import *
+p = Plot()
+i = 1
+def rect(s):
+    global i
+    i = i + 1
+    i = i % 2
+    if i == 0 : return Rect(x0=0, y0=0, x1=1, y1=0.6, label=s)
+    elif i == 1: return Rect(x0=0, y0=0, x1=4, y1=0.6, label=s)
+    
+m00 = [[r'\texttt{eid}', r'\texttt{name}'],
+]
+
+m10 = [[r'\texttt{%s}' % x for x in ['97','Chewie']],
+  [r'\texttt{%s}' % x for x in ['1','Yoda']],
+    [r'\texttt{%s}' % x for x in ['54','Boba']],
+]
+
+M = [[m00],
+     [m10]]
+
+N = table3(p, M, rect=rect)
+x,y = N[0][0].topleft(); x = x + 1; y = y + 0.4
+p += Rect(x0=x, y0=y, x1=x, y1=y, linewidth=0, label=r'\texttt{Employees}')
+print(p)
+\end{python}
+
+
+
+\begin{python}
+from latextool_basic import *
+p = Plot()
+i = 4
+def rect(s):
+    global i
+    i = i + 1
+    i = i % 5
+    if i == 0 : return Rect(x0=0, y0=0, x1=1, y1=0.6, label=s)
+    if i == 1 : return Rect(x0=0, y0=0, x1=1, y1=0.6, label=s)
+    elif i == 2: return Rect(x0=0, y0=0, x1=1.4, y1=0.6, label=s)
+    elif i == 3: return Rect(x0=0, y0=0, x1=12, y1=0.6, label=s)
+    elif i == 4: return Rect(x0=0, y0=0, x1=1.2, y1=0.6, label=s)
+    
+m00 = [[r'\texttt{sid}', r'\texttt{eid}', r'\texttt{state}', r'\texttt{note}', r'\texttt{time}'],
+]
+
+m10 = [[r'\texttt{%s}' % x for x in ['3',97, '0', 'hi, where\'s the on/off button? thanks. luke', '5']],
+       [r'\texttt{%s}' % x for x in ['3',97,'9', 'Luke: It\'s the red button. Chewie.', '10']],
+       [r'\texttt{%s}' % x for x in ['3',97,'0', 'where\'s the red button?', '24']],
+       [r'\texttt{%s}' % x for x in ['3',97,'9', 'Luke: Open the safety cap. Chewie.', '30']],
+       [r'\texttt{%s}' % x for x in ['3',97,'0', 'i do not see a safety cap. luke.', '45']],
+       [r'\texttt{%s}' % x for x in ['3',97,'1', 'Check with Yoda. Left msg. Chewie.', '47']],
+       [r'\texttt{%s}' % x for x in ['3',97,'4', 'Yoda sent query to Boba. Chewie.', '50']],
+       [r'\texttt{%s}' % x for x in ['3',97,'7', 'Boba said it\'s now voice-activated. Chewie.', '65']],
+       [r'\texttt{%s}' % x for x in ['3',97,'9', 'Luke: It\'s voice-activated. Chewie.', '68']],
+]
+
+M = [[m00],
+     [m10]]
+
+N = table3(p, M, rect=rect)
+x,y = N[0][0].topleft(); x = x + 0.5; y = y + 0.4
+from latexcircuit import *
+p += Rect(x0=x, y0=y, x1=x, y1=y, linewidth=0, label=r'\texttt{Notes}')
+print(p)
+\end{python}
+
+(Notes for support ticket with id 6 and 8 not shown.)
+
+
+Using MySQL, answer the next few questions.

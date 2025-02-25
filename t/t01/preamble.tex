@@ -1,0 +1,43 @@
+
+\newpage
+You are part of the rebel group.
+But lucky you -- you work in the IT department.
+No dangerous missions.
+But your immediate boss is Princess Leia -- and she's bossy.
+Well at least you don't have to worry about meeting Darth Vader and having an arm or
+leg
+sliced off.
+
+At the rebel base, they have a RDBMS system that keeps track of the flights
+for transport of personnel, food supplies, etc.
+Here's the schema (i.e., structure of tables):
+\begin{Verbatim}[commandchars=\\\{\}]
+    Flights(\underline{fno: integer},
+            from: string,
+            to: string,
+            distance: integer,
+            departs: time,
+            arrives: time)
+          
+    Aircraft(\underline{aid: integer},
+             aname: string,
+             cruisingrange: integer)
+           
+    Certified(\underline{eid: integer},
+              \underline{aid: integer})
+            
+    Employee(\underline{eid: integer},
+             ename: string,
+             salary: integer)
+\end{Verbatim}
+For each table, the field(s) underlined form(s) the key.
+
+The employee table contains pilot and non-pilot employees.
+Every pilot is certified to fly some aircraft (but possibly not all).
+
+Write down the SQL query that answers the
+queries below.
+If you believe a query cannot be expressed in SQL,
+write ERROR and explain (briefly please)
+why it cannot be done.
+
