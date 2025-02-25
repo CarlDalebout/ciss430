@@ -1,0 +1,21 @@
+Write an SQL statement to answer this query: What is the total wait time for
+each support ticket?
+The resulting relation has the support ticket id, email of person creating the
+ticket, and the total wait time.
+You must not assume that for every sid, for each note with state 0, there's
+a followup note with state 9, i.e.,
+do not assume the state 0 notes and state 9 notes
+pair up.
+It's possible to have a state 0 that is not paired up with a state 9 note.
+
+In the case when the question-reply sequence (for a fixed
+support ticket id) is
+$Q_1 R_1 Q_2 R_2 Q_3 R_3 Q_4$ (where $Q_i$ is a question
+and $R_j$ is a reply), the total wait time should ignore the
+last question $Q_4$ since there's no reply yet.
+For the case when the sequence is $Q_1 Q_2 R_1$, i.e., there are
+two questions and one reply, you assume 
+$R_1$ replies both $Q_1$ and $Q_2$ and therefore the
+total time is the sum of two difference between
+$R_1, Q_1$ and
+$R_1, Q_2$.
