@@ -20,45 +20,11 @@ struct FRAME
   std::string page = "";
 };
 
-class BufferPool // using fstream
+class BufferPool
 {
   public:
-    BufferPool(std::string file, int framesize = 4, int frames = 3)
-    :file_(file, std::ios::in | std::ios::out),framesize_(framesize), frames_(frames), option_(-1), pageNumber_(-1), newFrame_(""),
-     frameBuffer_(std::vector<FRAME>(frames_))
-    {}
-
-    //setters
-    std::string& operator [](int index) { return frameBuffer_[index].page; } // setter
-    void setFrameSize(int size) { framesize_ = size; }
-    void resize(int n);
-    void writePage(int pagenumber, std::string frame);
-
-    //getters
-    const std::string& operator [](int index) const { return frameBuffer_[index].page; } // getter
-    int getFrameSize()                              {  return framesize_; }
-    int size()                                      {  return frames_; }
-    std::string getPage(int pagenumber);
-
-    void run();
-    
-  
-  private:
-  std::fstream file_;
-  int framesize_; // in bytes
-  int frames_;
-  int option_;
-  int pageNumber_;
-  std::string newFrame_;
-  
-  std::vector<FRAME> frameBuffer_;
-};
-
-class BufferPool2
-{
-  public:
-    BufferPool2(const char* filename, int framesize = 4, int frames = 3)
-    :file_(open(filename, O_RDWR)), framesize_(framesize), frames_(frames),
+    BufferPool(const char* filename, int filesize = 20, int framesize = 4, int frames = 3)
+    :file_(open(filename, O_RDWR)), filesize_(filesize), framesize_(framesize), frames_(frames),
      frameBuffer_(std::vector<FRAME>(frames_))
     {
       if (file_ < 0)
@@ -72,7 +38,7 @@ class BufferPool2
       std::cout << "open ok" << std::endl;
       }
     }
-    ~BufferPool2()
+    ~BufferPool()
     {
       std::cout << "closed file_\n";
       close(file_);
@@ -95,6 +61,7 @@ class BufferPool2
   private:
     
     int file_;
+    int filesize_;
     int framesize_;
     int frames_;
     std::vector<FRAME> frameBuffer_;

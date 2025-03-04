@@ -6,11 +6,25 @@
  
 int main()
 {
-  std::string file = "abc.txt";
+
+
+  std::string file; //= "abc.txt";
+  int filesize;
+  int framesize;
+  int frames;
+
+  std::cin >> file;
+  file += ".txt";
+
+  std::cin >> filesize;
+  std::cin >> framesize;
+  std::cin >> frames;
+
+
   const char* filename = file.c_str();
-  BufferPool2 buffer(filename);
+  BufferPool buffer(filename, filesize, framesize, frames);
   
   buffer.run();
   
   return 0;
-}
+} 
