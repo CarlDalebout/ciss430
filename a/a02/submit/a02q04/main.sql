@@ -30,7 +30,7 @@ create table person(
   id INT PRIMARY Key,
   fname varchar(100),
   lname varchar(100)
-); engine=innodb;
+) engine=innodb;
 
 create table email(
   id INT PRIMARY Key,
@@ -61,17 +61,49 @@ create table teaching_info(
   primary key (id) references semester(id), instructor(id), course(id), section(id)
 ); engine=innodb;
 
+create table building(
+  id INT PRIMARY Key,
+  name VARCHAR(100)
+) engine=innodb;
+
+create table room(
+  id INT PRIMARY Key,
+  building_id INT,
+  room_number INT
+) engine=innodb;
+
+create table class(
+  id INT PRIMARY Key
+  teaching_info_id INT,
+  room_id INT
+  meet_days VARCHAR(100),
+  stime INT,
+  etime INT
+) engine=innodb;
+
+create table course_registration(
+  id INT PRIMARY Key,
+  student_id INT,
+  class_id INT
+) engine=innodb;
+
 ------------------------------------------------------------------------------------
 
 insert into person values 
   (0, "Yihsiang", "Liow"), 
-  (1, "John", "Doe");
+  (1, "John", "Doe"),
+  (2, "Tom", "Smith");
 
 insert into email values 
   (0, 0, "yliow", "password"), 
   (1, 1, "jdoe", "secret");
 
-insert into instructor values (0, 0), (1, 1);
+insert into instructor values 
+  (0, 0), 
+  (1, 1);
+
+insert into student values
+  (0, 2)
 
 insert into semester values 
   (0, "Spring", 2017, 1, 15, 5, 15), 
@@ -106,7 +138,25 @@ insert into teaching_info values
   (10, 1, 1, 5, 0), 
   (11, 2, 0, 2, 0),
   (12, 2, 0, 3, 0),
-  (13, 2, 0, 4, 0) 
+  (13, 2, 0, 4, 0);
+
+insert into building values
+  (0, "Buchanan Hall");
+
+insert into room values
+  (0, 0, 103),
+  (1, 0, 104),
+  (2, 0, 107);
+
+insert into class values
+  (0, 0, 1, "MWF", 1300, 1350),
+  (1, 0, 2, "Tu", 1300, 1350),
+  (2, 1, 0, "MWF", 1100, 1150),
+  (3, 2, 0, "MWF", 900, 950);
+
+insert into course_registration values
+  (0, 0, 3);
+
 
 SELECT 
     semester.season,

@@ -3,41 +3,42 @@ create database cms;
 drop table course;
 drop table person;
 
+create table semester(
+  id int,
+  season varchar(100),
+  year    int, 
+  smonth  int,
+  sday    int,
+  emonth  int,
+  eday    int
+);
 
-CREATE TABLE semester (
-  id INT PRIMARY KEY,
-  season VARCHAR(100),
-  year INT,
-  smonth INT,
-  sday INT,
-  emonth INT,
-  eday INT
-) ENGINE=InnoDB;
-
-CREATE TABLE course (
-  id INT PRIMARY KEY,
-  course_name VARCHAR(100),
-  course_number INT,
-  course_disc VARCHAR(100)
-) ENGINE=InnoDB;
+create table course(
+  id int,
+  course_id varchar(100),
+  course_name varchar(100),
+  primary key (id) 
+); engine=innodb;
 
 create table section(
-  id INT PRIMARY Key,
+  id int,
   section_name varchar(100),
-) ENGINE=InnoDB;
+  primary key(id) references course(id)
+); engine=innodb;
 
 create table person(
-  id INT PRIMARY Key,
+  id int,
   fname varchar(100),
   lname varchar(100)
+  primary key (id)
 ); engine=innodb;
 
 create table email(
-  id INT PRIMARY Key,
+  id int,
   person_id int,
   username varchar(100),
   passkey  varchar(100)
-  FOREIGN KEY (person_id) REFERENCES person(id)
+  primary key (id) references person(id)
 ); engine=innodb;
 
 create table instructor(
@@ -79,13 +80,13 @@ insert into semester values
   (2, "Sprint", 2018, 1, 15, 5, 15);
 
 insert into course values
-  (0, "Ciss", 145, "Python Programming"),
-  (1, "Ciss", 240, "Introduction to Programming"),
-  (2, "Ciss", 245, "Advanced Programming"),
-  (3, "Ciss", 350, "Data Structures and Advanced Algorithms"),
-  (4, "Ciss", 430, "Database Systems"),
-  (5, "Math", 225, "Discrete Mathematics I"),
-  (6, "Math", 325, "Discrete Mathematics II");
+  (0, "Ciss145", "Python Programming"),
+  (1, "Ciss240", "Introduction to Programming"),
+  (2, "Ciss245", "Advanced Programming"),
+  (3, "Ciss350", "Data Structures and Advanced Algorithms"),
+  (4, "Ciss430", "Database Systems"),
+  (5, "Math225", "Discrete Mathematics I"),
+  (6, "Math325", "Discrete Mathematics II");
 
 insert into section values
   (0, "A"),
@@ -107,19 +108,3 @@ insert into teaching_info values
   (11, 2, 0, 2, 0),
   (12, 2, 0, 3, 0),
   (13, 2, 0, 4, 0) 
-
-SELECT 
-    semester.season,
-    semester.year,
-    person.fname,
-    person.lname,
-    course.course_name,
-    course.course_number,
-    section.section_name,
-    course.course_disc
-FROM teaching_info ti
-JOIN semester ON ti.semester_id = semester.id
-JOIN instructor i ON ti.instructor_id = i.id
-JOIN person ON i.person_id = person.id
-JOIN course ON ti.course_id = course.id
-JOIN section ON ti.section_id = section.id;
