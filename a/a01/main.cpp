@@ -6,8 +6,6 @@
  
 int main()
 {
-
-
   std::string file; //= "abc.txt";
   int filesize;
   int framesize;

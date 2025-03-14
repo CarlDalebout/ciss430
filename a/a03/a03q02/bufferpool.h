@@ -56,7 +56,10 @@ class BufferPool
     int size()         {  return frames_; }
     std::string getPage(int file, int pagenumber);
 
+    //misc
     void run();
+    int updateLRU(int pagenumber);
+    void printLRU();
 
   private:
     
@@ -65,6 +68,7 @@ class BufferPool
     int framesize_;
     int frames_;
     std::vector<FRAME> frameBuffer_;
+    std::vector<int> LRU_;
 };
 
 #endif
